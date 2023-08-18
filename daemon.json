@@ -1,0 +1,9 @@
+{ 
+
+"data-root": "/home//ten/Docker",
+"features": {
+    "buildkit": true
+  }
+
+
+}
