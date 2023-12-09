@@ -12,13 +12,14 @@ o.laststatus = 2
 -- o.t_Co = 256
 o.hlsearch = true
 o.binary = true
-o.list = true
-
+--o.list = true
 -- o.set number
+
+o.clipboard:append { 'unnamedplus' }
+
 
 o.splitbelow = on
 o.autoindent = true
-o.clipboard = unnamed
 o.display = lastline
 o.mouse=""
 g.mapleader = ","
@@ -35,12 +36,15 @@ require "paq" {
     {'nvim-lualine/lualine.nvim',requires = { 'nvim-tree/nvim-web-devicons', opt = true }},
     {'morhetz/gruvbox'},
     {'nvim-tree/nvim-web-devicons'},
-    { 'nvim-treesitter/nvim-treesitter', build = ':TSUpdate' },
-    { "ibhagwan/fzf-lua", requires = { "nvim-tree/nvim-web-devicons" }},
-    { 'nvim-tree/nvim-tree.lua', requires = {'nvim-tree/nvim-web-devicons'}},
+    {'nvim-treesitter/nvim-treesitter', build = ':TSUpdate' },
+    {"ibhagwan/fzf-lua", requires = { "nvim-tree/nvim-web-devicons" }},
+    {'nvim-tree/nvim-tree.lua', requires = {'nvim-tree/nvim-web-devicons'}},
     {'f-person/git-blame.nvim'},
     {"lukas-reineke/indent-blankline.nvim"},
-    {'akinsho/bufferline.nvim', version = "*", dependencies = 'nvim-tree/nvim-web-devicons'}
+    {'akinsho/bufferline.nvim', version = "*", dependencies = 'nvim-tree/nvim-web-devicons'},
+    {'preservim/tagbar'},
+    {'nvim-lua/plenary.nvim'},
+    {'nvim-pack/nvim-spectre'},
 }
 
 vim.opt.background = 'dark'
@@ -99,6 +103,7 @@ require'nvim-treesitter.configs'.setup {
 --}
 
 vim.opt.termguicolors = true
+vim.g.rainbow_delimiters = { highlight = highlight }
 require("bufferline").setup{}
 
 k.set("n", "<leader>d", "<cmd>lua require('fzf-lua').files()<CR>", { silent = true })
@@ -106,15 +111,16 @@ k.set("n", "<leader>f", "<cmd>lua require('fzf-lua').grep()<CR>", { silent = tru
 k.set("n", "<C-h>", "<cmd>lua require('fzf-lua').grep_cword()<CR>", { silent = true })
 k.set("n", "<leader>m", "<cmd> NvimTreeToggle<CR>", {})
 k.set("n", "<leader>s", "<cmd> GitBlameToggle<CR>", {})
+k.set("n", "<F8>", "<cmd> TagbarToggle<CR>", {})
 k.set("n", "<leader>l", "<cmd>lua require('ibl').setup()<CR>", { silent = true })
-
-
+k.set("n", '<leader>y', "<cmd> \"+y <CR>", {})  
+k.set('n', '<leader>S', '<cmd>lua require("spectre").toggle()<CR>', {desc = "Toggle Spectre"})
 
 k.set("n", "<C-t>", "<cmd>:tabnew<CR>", { silent = true })
 k.set("n", "<C-d>", "<cmd>:bd<CR>", { silent = true })
 
 
-k.set("n", "<C-b>", "<cmd>:bn<CR>", { silent = true })
+k.set("n", "<leader>b", "<cmd>:bn<CR>", { silent = true })
 k.set("n", "<leader>v", "<cmd>:bp<CR>", { silent = true })
 
 
