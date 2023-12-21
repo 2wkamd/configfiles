@@ -25,12 +25,13 @@ bindkey "^ " forward-word
 autoload -Uz compinit
 compinit
 
-#source <(/home/ /ten/GCP/google-cloud-sdk/bin/kubectl completion zsh)
+source <(/home//ten/GCP/google-cloud-sdk/bin/kubectl completion zsh)
 
 eval "$(zoxide init zsh)"
 
 # zplug - manage plugins
 source ~/.zplug/init.zsh
+zplug 'zplug/zplug', hook-build:'zplug --self-manage'
 zplug "plugins/sudo", from:oh-my-zsh
 zplug "plugins/kubectl", from:oh-my-zsh
 #zplug "plugins/sdk", from:oh-my-zsh
@@ -49,13 +50,17 @@ zplug "themes/robbyrussell", from:oh-my-zsh, as:theme   # Theme
 #    fi
 #fi
 #zplug load --verbose
+
+zstyle ":zplug:tag" as:command
+zstyle ":zplug:tag" lazy:true
+
 zplug load
 
 export EDITOR=nvim
 
-export SDKMAN_DIR="/home/ /ten/sdkman"
-[[ -s "/home/ /ten/sdkman/bin/sdkman-init.sh" ]] && source "/home/ /ten/sdkman/bin/sdkman-init.sh"
+export SDKMAN_DIR="/home//ten/sdkman"
+[[ -s "/home//ten/sdkman/bin/sdkman-init.sh" ]] && source "/home//ten/sdkman/bin/sdkman-init.sh"
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
-if [ -f '/home/ /ten/GCP/google-cloud-sdk/path.zsh.inc' ]; then . '/home/ /ten/GCP/google-cloud-sdk/path.zsh.inc'; fi
-if [ -f '/home/ /ten/GCP/google-cloud-sdk/completion.zsh.inc' ]; then . '/home/ /ten/GCP/google-cloud-sdk/completion.zsh.inc'; fi
+if [ -f '/home//ten/GCP/google-cloud-sdk/path.zsh.inc' ]; then . '/home//ten/GCP/google-cloud-sdk/path.zsh.inc'; fi
+if [ -f '/home//ten/GCP/google-cloud-sdk/completion.zsh.inc' ]; then . '/home//ten/GCP/google-cloud-sdk/completion.zsh.inc'; fi
