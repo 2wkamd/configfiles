@@ -1,0 +1,8 @@
+alias ls='exa --icons'
+alias hh='fc -ln -1 >> $HOME/.hist'
+alias cat='bat'
+alias catp='bat --style plain'
+alias vi='nvim'
+alias grep='grep --color=auto'
+alias ec="$EDITOR $HOME/.zshrc" # edit .zshrc
+alias zc="source $HOME/.zshrc"  # reload zsh configuration
