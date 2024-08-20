@@ -1,0 +1,17 @@
+import = [
+    "~/.config/alacritty/themes/themes/breeze.toml"
+]
+
+[window]
+dimensions.columns= 130
+dimensions.lines= 40
+
+
+[font]
+
+normal.family = "CaskaydiaCove Nerd Font"
+bold.family = "CaskaydiaCove Nerd Font"
+italic.family = "CaskaydiaCove Nerd Font"
+bold_italic.family = "CaskaydiaCove Nerd Font"
+
+size = 7.0
