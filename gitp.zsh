@@ -4,7 +4,7 @@ git_version="${${(As: :)$(git version 2>/dev/null)}[3]}"
 alias gfa='git fetch -a'
 
 alias gaa='git add -A'
-alias gcm='git commit -m "$1"'
+alias gcm='git commit -m '"$1"' '
 alias gph='git push'
 
 
