@@ -1,12 +1,30 @@
-# Set up the prompt - if you load Theme with zplugin as in this example, this will be overriden by the Theme. If you comment out the Theme in zplugins, this will be loaded.
-#autoload -Uz promptinit
-#promptinit
-#prompt walters            # see Zsh Prompt Theme below
+
+#
+if [[ -z "$ZELLIJ" ]]; then
+    if [[ "$ZELLIJ_AUTO_ATTACH" == "true" ]]; then
+        zellij attach -c
+    else
+        zellij --layout compact
+    fi
+
+    if [[ "$ZELLIJ_AUTO_EXIT" == "true" ]]; then
+        exit
+    fi
+fi
+
+
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
 
 # Use vi keybindings even if our EDITOR is set to vi
 bindkey -e
 
-setopt histignorealldups sharehistory
+#setopt histignorealldups sharehistory
 
 # Keep 5000 lines of history within the shell and save it to ~/.zsh_history:
 HISTSIZE=5000
@@ -25,42 +43,55 @@ bindkey "^ " forward-word
 autoload -Uz compinit
 compinit
 
-source <(/home//ten/GCP/google-cloud-sdk/bin/kubectl completion zsh)
+source <(/usr/local/bin/kubectl completion zsh)
 
-eval "$(zoxide init zsh)"
 
-# zplug - manage plugins
-source ~/.zplug/init.zsh
-zplug 'zplug/zplug', hook-build:'zplug --self-manage'
-zplug "plugins/sudo", from:oh-my-zsh
-zplug "plugins/kubectl", from:oh-my-zsh
-#zplug "plugins/sdk", from:oh-my-zsh
-zplug "zsh-users/zsh-syntax-highlighting"
-zplug "zsh-users/zsh-autosuggestions"
-#zplug "zsh-users/zsh-history-substring-search"
-zplug "zsh-users/zsh-completions"
-zplug "junegunn/fzf"
-zplug "themes/robbyrussell", from:oh-my-zsh, as:theme   # Theme
-#zplug "~/.local_zshrc", from:local
-# zplug - install/load new plugins when zsh is started or reloaded
-#if ! zplug check --verbose; then
-#    printf "Install? [y/N]: "
-#    if read -q; then
-#        echo; zplug install
-#    fi
+
+### Added by Zinit's installer
+#if [[ ! -f $HOME/.local/share/zinit/zinit.git/zinit.zsh ]]; then
+#    print -P "%F{33} %F{220}Installing %F{33}ZDHARMA-CONTINUUM%F{220} Initiative Plugin Manager (%F{33}zdharma-continuum/zinit%F{220})…%f"
+#    command mkdir -p "$HOME/.local/share/zinit" && command chmod g-rwX "$HOME/.local/share/zinit"
+#    command git clone https://github.com/zdharma-continuum/zinit "$HOME/.local/share/zinit/zinit.git" && \
+#        print -P "%F{33} %F{34}Installation successful.%f%b" || \
+#        print -P "%F{160} The clone has failed.%f%b"
 #fi
-#zplug load --verbose
 
-zstyle ":zplug:tag" as:command
-zstyle ":zplug:tag" lazy:true
+source "$HOME/.local/share/zinit/zinit.git/zinit.zsh"
+autoload -Uz _zinit
+(( ${+_comps} )) && _comps[zinit]=_zinit
 
-zplug load
+# Load a few important annexes, without Turbo
+# (this is currently required for annexes)
+#zinit light-mode for \
+#    zdharma-continuum/zinit-annex-as-monitor \
+#    zdharma-continuum/zinit-annex-bin-gem-node \
+#    zdharma-continuum/zinit-annex-patch-dl \
+#    zdharma-continuum/zinit-annex-rust
+
+### End of Zinit's installer chunk
+
+zinit ice depth"1" as"theme" 
+zinit light romkatv/powerlevel10k
+zinit light zsh-users/zsh-syntax-highlighting 
+zinit light zsh-users/zsh-syntax-highlighting
+zinit light zsh-users/zsh-autosuggestions  
+zinit light junegunn/fzf
+zinit snippet OMZ::plugins/sudo/sudo.plugin.zsh
+zinit snippet OMZ::plugins/kubectl/kubectl.plugin.zsh
+zinit snippet /home//gitp.zsh
 
 export EDITOR=nvim
+export SUDO_EDITOR=nvim
+
 
 export SDKMAN_DIR="/home//ten/sdkman"
 [[ -s "/home//ten/sdkman/bin/sdkman-init.sh" ]] && source "/home//ten/sdkman/bin/sdkman-init.sh"
+
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
-if [ -f '/home//ten/GCP/google-cloud-sdk/path.zsh.inc' ]; then . '/home//ten/GCP/google-cloud-sdk/path.zsh.inc'; fi
-if [ -f '/home//ten/GCP/google-cloud-sdk/completion.zsh.inc' ]; then . '/home//ten/GCP/google-cloud-sdk/completion.zsh.inc'; fi
+eval "$(zoxide init zsh)"
+#eval "$(zellij setup --generate-auto-start zsh)"
+eval "$(zellij setup --generate-auto-start zsh)"
